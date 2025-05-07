@@ -94,6 +94,36 @@ std::set<std::string> boggle(const std::set<std::string>& dict, const std::set<s
 bool boggleHelper(const std::set<std::string>& dict, const std::set<std::string>& prefix, const std::vector<std::vector<char> >& board, 
 								   std::string word, std::set<std::string>& result, unsigned int r, unsigned int c, int dr, int dc)
 {
-//add your solution here!
-
+  if(c>= board[0].size() ||r>= board.size()){
+    //bool isFullWord = (dict.find(word)==dict.end());
+    if(dict.find(word)!=dict.end()){
+      result.insert(word);
+      return true;
+    }
+    else {
+      return false;}
+  }
+  bool foundInternalWord = false;
+  word += board[r][c];
+  if(dict.find(word)!=dict.end()){
+    foundInternalWord=true;
+    bool isPrefix = (prefix.find(word)==prefix.end());
+    if(isPrefix==true){
+      result.insert(word);
+      return true;
+    }
+  }
+    
+    if(boggleHelper(dict, prefix, board, word, result, r+dr, c+dc, dr, dc)){
+      return true;
+    }
+    else {
+      if(foundInternalWord==true){
+        result.insert(word);
+        return true;
+      }else{
+        return false;
+      }
+      
+    }
 }
